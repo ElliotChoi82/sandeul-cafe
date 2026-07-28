@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>산들 | 숲과 산이 보이는 카페</title>
+<style>
+  @font-face {
+    font-family: 'DearFromsol';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/2607161334@griun-fromsol-rg/griun-fromsol-rg/Griun_Fromsol-Rg.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+  }
+  :root {
+    --white: #ffffff;
+    --off-white: #faf9f7;
+    --ink: #2b2f2a;
+    --ink-soft: #5c635a;
+    --forest: #3f5d47;
+    --forest-deep: #2c4433;
+    --sage: #8fa889;
+    --line: #e6e4de;
+    --accent: #c7935a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "DearFromsol", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink);
+    background: var(--white);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* NAV */
+  header.nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--forest-deep);
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  .nav-links a:hover { color: var(--forest-deep); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 640px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 60%, var(--white) 100%),
+      linear-gradient(180deg, #dbe9dd 0%, #b9d3bd 22%, #8fb096 40%, #5f8a68 58%, #3f5d47 78%, #2c4433 100%);
+  }
+  .hero::before {
+    /* distant mountain silhouette */
+    content: "";
+    position: absolute;
+    left: -5%; right: -5%; bottom: 28%;
+    height: 30%;
+    background:
+      radial-gradient(60% 100% at 15% 100%, #6f8d78 0%, transparent 70%),
+      radial-gradient(50% 100% at 45% 100%, #5a7b64 0%, transparent 70%),
+      radial-gradient(65% 100% at 78% 100%, #7fa088 0%, transparent 70%);
+    opacity: 0.85;
+  }
+  .hero::after {
+    /* river / foreground field */
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 22%;
+    background: linear-gradient(180deg, rgba(63,93,71,0) 0%, #2c4433 100%);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 0 24px 90px;
+    max-width: 1100px;
+    margin: 0 auto;
+    color: #fff;
+  }
+  .hero-eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    opacity: 0.9;
+    margin-bottom: 18px;
+  }
+  .hero-title {
+    font-size: clamp(40px, 7vw, 76px);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    margin-bottom: 18px;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.15);
+  }
+  .hero-tagline {
+    font-size: clamp(16px, 2vw, 20px);
+    max-width: 520px;
+    opacity: 0.95;
+    font-weight: 400;
+  }
+  .scroll-cue {
+    position: absolute;
+    bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    color: #fff;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    opacity: 0.75;
+  }
+
+  /* SECTION SHARED */
+  section { padding: 110px 0; }
+  section[id] { scroll-margin-top: 84px; }
+  .section-head {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .section-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 800;
+    color: var(--forest-deep);
+  }
+  .section-sub {
+    margin-top: 14px;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+
+  /* STORY */
+  .story {
+    background: var(--off-white);
+  }
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .story-visual {
+    aspect-ratio: 4/5;
+    border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(44,68,51,0.18);
+  }
+  .story-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .photo-credit {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.85);
+    background: rgba(0,0,0,0.25);
+    padding: 3px 8px;
+    border-radius: 20px;
+    backdrop-filter: blur(2px);
+  }
+  .story-text p {
+    margin-bottom: 18px;
+    color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+  .story-text p:first-of-type {
+    color: var(--ink);
+    font-size: 17px;
+  }
+  .quote-line {
+    margin-top: 28px;
+    padding-left: 18px;
+    border-left: 3px solid var(--sage);
+    font-style: italic;
+    color: var(--forest-deep);
+    font-size: 15px;
+  }
+
+  /* AMBIENCE STRIP */
+  .ambience {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 64px;
+  }
+  .ambience-card {
+    padding: 28px 24px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #fff;
+  }
+  .ambience-card .icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--sage), var(--forest));
+    margin-bottom: 16px;
+  }
+  .ambience-card h4 {
+    font-size: 15px;
+    color: var(--forest-deep);
+    margin-bottom: 8px;
+  }
+  .ambience-card p {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+
+  /* MENU */
+  .menu-signature {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .menu-card {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .menu-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 36px rgba(44,68,51,0.12);
+  }
+  .menu-card-img {
+    height: 160px;
+    overflow: hidden;
+  }
+  .menu-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .menu-card-body { padding: 26px; }
+  .menu-card-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--forest-deep);
+    margin-bottom: 10px;
+  }
+  .menu-card-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+    min-height: 66px;
+  }
+  .menu-card-price {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .other-menu-accordion {
+    margin-top: 64px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #fff;
+    overflow: hidden;
+  }
+  .other-menu-accordion summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--forest-deep);
+  }
+  .other-menu-accordion summary::-webkit-details-marker { display: none; }
+  .other-menu-accordion summary .plus {
+    font-size: 22px;
+    color: var(--accent);
+    font-weight: 400;
+    transition: transform 0.25s ease;
+  }
+  .other-menu-accordion[open] summary .plus { transform: rotate(45deg); }
+  .other-menu {
+    padding: 24px 28px 32px;
+    border-top: 1px solid var(--line);
+  }
+  .other-menu-carousel {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 6px 2px 18px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .other-menu-carousel::-webkit-scrollbar { height: 6px; }
+  .other-menu-carousel::-webkit-scrollbar-thumb { background: var(--line); border-radius: 10px; }
+  .other-menu-card {
+    flex: 0 0 150px;
+    scroll-snap-align: start;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    transition: transform 0.2s ease;
+  }
+  .other-menu-card:hover { transform: translateY(-4px); }
+  .other-menu-card img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    display: block;
+  }
+  .other-menu-card .name {
+    padding: 10px 12px 12px;
+    font-size: 13.5px;
+    color: var(--ink);
+    text-align: center;
+  }
+  .other-menu-card .tag {
+    display: block;
+    font-size: 10px;
+    color: #b9a58a;
+    margin-top: 3px;
+  }
+  .combo-box {
+    background: var(--off-white);
+    border-radius: 14px;
+    padding: 28px;
+    margin-top: 8px;
+  }
+  .combo-box h4 {
+    color: var(--forest-deep);
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+  .combo-item {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+    padding-left: 18px;
+    position: relative;
+  }
+  .combo-item::before {
+    content: "＋";
+    position: absolute;
+    left: 0;
+    color: var(--sage);
+    font-weight: 700;
+  }
+
+  /* NEWS */
+  .news {
+    background: var(--forest-deep);
+    color: #fff;
+  }
+  .news .section-title { color: #fff; }
+  .news .section-eyebrow { color: #cfe0c9; }
+  .news-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .news-message {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 30px;
+  }
+  .news-message .label {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: #cfe0c9;
+    margin-bottom: 12px;
+  }
+  .news-message p {
+    font-size: 16.5px;
+    line-height: 1.8;
+  }
+  .news-form p.desc {
+    color: #dbe6d6;
+    font-size: 14.5px;
+    margin-bottom: 24px;
+  }
+  .form-row {
+    display: flex;
+    gap: 10px;
+  }
+  .form-row input {
+    flex: 1;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    outline: none;
+  }
+  .form-row button {
+    padding: 14px 22px;
+    border-radius: 10px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  .form-row button:hover { opacity: 0.9; }
+  .form-note {
+    margin-top: 12px;
+    font-size: 12.5px;
+    color: #aebfa8;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--off-white);
+    padding: 60px 0 40px;
+    border-top: 1px solid var(--line);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  .footer-brand { font-size: 20px; font-weight: 800; color: var(--forest-deep); margin-bottom: 10px; }
+  .footer-tagline { font-size: 13.5px; color: var(--ink-soft); }
+  .footer-col h5 {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .footer-col p, .footer-col a {
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .footer-bottom {
+    text-align: center;
+    font-size: 12.5px;
+    color: #a5ab9f;
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+  }
+
+  @media (max-width: 860px) {
+    .nav-links { display: none; }
+    .story-grid, .news-grid, .footer-grid { grid-template-columns: 1fr; }
+    .menu-signature { grid-template-columns: 1fr; }
+    .ambience { grid-template-columns: 1fr; }
+    .story-visual { order: -1; aspect-ratio: 16/10; }
+    .form-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">산들</a>
+    <nav class="nav-links">
+      <a href="#top">첫 화면</a>
+      <a href="#menu">메뉴판</a>
+      <a href="#news">소식받기</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Forest &amp; Mountain View Cafe</div>
+    <h1 class="hero-title">산들</h1>
+    <p class="hero-tagline">도시의 소음을 잠시 내려놓고, 숲과 산이 보이는 창가에서 쉬어가세요.</p>
+  </div>
+  <div class="scroll-cue">SCROLL ↓</div>
+</section>
+
+<section class="story" id="story">
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="story-text">
+        <div class="section-eyebrow">시작 이야기</div>
+        <p>차를 타고 가다가 가끔 스치듯 봤던 풍경이 있었습니다.<br>어딘지는 정확히 기억나지 않지만,<br>푸른 초원 사이로 흐르는 강과 초록빛 숲, 그리고 멀리 보이는 산.<br>그 장면이 마음 한켠에 오래도록 남았습니다.</p>
+        <p>시야가 탁 트인 그 여백이 좋았습니다.<br>도시의 삶에 지친 분들에게 그런 여유를 나눠드리고 싶어서<br>산들을 시작했습니다.</p>
+        <div class="quote-line">"전면 통유리 너머로 숲과 산이 시원하게 펼쳐지는 곳,<br>잔잔한 음악만이 낮게 흐르는 조용한 공간."</div>
+      </div>
+      <div class="story-visual">
+        <img src="https://images.pexels.com/photos/20080079/pexels-photo-20080079.jpeg?auto=compress&cs=tinysrgb&w=900" alt="깨끗한 강물이 흐르는 초록 초원과 멀리 보이는 산">
+        <span class="photo-credit">Photo by Hanna Jauck / Pexels</span>
+      </div>
+    </div>
+
+    <div class="ambience">
+      <div class="ambience-card">
+        <div class="icon"></div>
+        <h4>보이는 것</h4>
+        <p>전면 통유리 너머로 펼쳐지는 초록빛 숲과 멀리 보이는 산. 화이트 톤의 깔끔하고 현대적인 가구와 조명.</p>
+      </div>
+      <div class="ambience-card">
+        <div class="icon"></div>
+        <h4>맡아지는 것</h4>
+        <p>공간 가득 은은하게 퍼지는 커피 향.</p>
+      </div>
+      <div class="ambience-card">
+        <div class="icon"></div>
+        <h4>들리는 것</h4>
+        <p>조용한 실내에 낮게 흐르는 어쿠스틱, 뉴에이지 계열의 잔잔한 음악.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-eyebrow">Signature Menu</div>
+      <h2 class="section-title">대표 메뉴</h2>
+      <p class="section-sub">오래된 원두는 쓰지 않고, 어제 만든 빵은 팔지 않습니다 — 최상의 맛을 위해서요.</p>
+    </div>
+
+    <div class="menu-signature">
+      <div class="menu-card">
+        <div class="menu-card-img"><img src="https://images.pexels.com/photos/7125760/pexels-photo-7125760.jpeg?auto=compress&cs=tinysrgb&w=500" alt="핸드드립 게이샤 커피"></div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">핸드드립 게이샤 커피</div>
+          <div class="menu-card-desc">산미와 은은히 풍기는 재스민 향이 매력적인 커피.<br>그 향과 맛이 좋아 대표 메뉴로 정했습니다.</div>
+          <div class="menu-card-price">12,000원</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-img"><img src="https://images.pexels.com/photos/6607325/pexels-photo-6607325.jpeg?auto=compress&cs=tinysrgb&w=500" alt="치즈케이크"></div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">치즈케이크</div>
+          <div class="menu-card-desc">입안 가득 퍼지는 치즈의 고소함과 짭짤함.<br>커피와의 궁합이 특히 좋습니다.</div>
+          <div class="menu-card-price">9,000원</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1757332914512-ffaf5b521ba8?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="소금빵"></div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">소금빵</div>
+          <div class="menu-card-desc">버터리하면서 짭짤하고, 부드러우면서도 쫄깃한 식감. 커피와 잘 어울리는 아담한 한 조각.</div>
+          <div class="menu-card-price">3,000원</div>
+        </div>
+      </div>
+    </div>
+
+    <details class="other-menu-accordion" open>
+      <summary>그 외 메뉴 보기 <span class="plus">＋</span></summary>
+      <div class="other-menu">
+        <h4 style="font-size:15px; color:var(--forest-deep); margin-bottom:4px;">그 외 메뉴</h4>
+        <div class="other-menu-carousel">
+          <div class="other-menu-card">
+            <img src="https://images.unsplash.com/photo-1528556860752-2a6a19a285a3?fm=jpg&q=70&w=300&auto=format&fit=crop" alt="당근주스">
+            <div class="name">당근주스<span class="tag">[6000원]</span></div>
+          </div>
+          <div class="other-menu-card">
+            <img src="https://images.pexels.com/photos/14133096/pexels-photo-14133096.jpeg?auto=compress&cs=tinysrgb&w=300" alt="초코쿠키">
+            <div class="name">초코쿠키<span class="tag">[4000원]</span></div>
+          </div>
+          <div class="other-menu-card">
+            <img src="https://images.pexels.com/photos/1233528/pexels-photo-1233528.jpeg?auto=compress&cs=tinysrgb&w=300" alt="아메리카노">
+            <div class="name">아메리카노<span class="tag">[5000원]</span></div>
+          </div>
+          <div class="other-menu-card">
+            <img src="https://images.pexels.com/photos/544113/pexels-photo-544113.jpeg?auto=compress&cs=tinysrgb&w=300" alt="카페라떼">
+            <div class="name">카페라떼<span class="tag">[6000원]</span></div>
+          </div>
+          <div class="other-menu-card">
+            <img src="https://images.unsplash.com/photo-1555949366-819808d99159?fm=jpg&q=70&w=300&auto=format&fit=crop" alt="레몬에이드">
+            <div class="name">레몬에이드<span class="tag">[4000원]</span></div>
+          </div>
+        </div>
+        <div class="combo-box">
+          <h4>추천 조합 <span style="font-size:11px; color:#b9a58a;"></span></h4>
+          <div class="combo-item">게이샤 커피 + 소금빵 — 산미와 짭짤한 버터향의 조화</div>
+          <div class="combo-item">치즈케이크 + 카페라떼 — 고소함이 배가되는 조합</div>
+          <div class="combo-item">당근주스 + 초코쿠키 — 상큼함과 달콤함의 균형</div>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section class="news" id="news">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-eyebrow">News</div>
+      <h2 class="section-title">소식받기</h2>
+    </div>
+    <div class="news-grid">
+      <div class="news-message">
+        <div class="label">최근 소식 미리보기</div>
+        <p>"5월에만 만날 수 있는 쟈스민향 가득한 게이샤 원두가 입고되었어요!"</p>
+      </div>
+      <div class="news-form">
+        <p class="desc">새로운 원두 소식, 계절 메뉴 소식을 편안하고 친근한 말투로 전해드릴게요.</p>
+        <form class="form-row" id="newsForm">
+          <input type="email" placeholder="이메일을 남겨주세요" required>
+          <button type="submit">소식받기</button>
+        </form>
+        <div class="form-note" id="formNote">가입은 언제든 해지할 수 있어요.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">산들</div>
+        <p class="footer-tagline">숲과 산이 보이는 창가에서, 잠시 쉬어가는 곳.</p>
+      </div>
+      <div class="footer-col">
+        <h5>영업시간 <span style="font-size:10px; color:#b9a58a;"></span></h5>
+        <p>매일 10:00 – 20:00</p>
+        <p>연중무휴</p>
+      </div>
+      <div class="footer-col">
+        <h5>연락처 · SNS <span style="font-size:10px; color:#b9a58a;"></span></h5>
+        <p>0507-1234-5678</p>
+        <a href="#">@sandeul.forest</a>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 산들. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('newsForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('formNote').textContent = '소식 신청이 완료되었어요. 곧 첫 소식을 보내드릴게요!';
+    this.reset();
+  });
+</script>
+
+</body>
+</html>
